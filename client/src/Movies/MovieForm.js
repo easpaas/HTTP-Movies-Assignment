@@ -1,25 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import Axios from 'axios';
-// import axios from 'axios';
+import axios from 'axios';
 
 const emptyData = {
   id: '', 
   title: '',
   director: '',
   metascore: '',
-  actors: [],
+  stars: [],
 };
 
-const MovieForm = () => {
+const MovieForm = (props) => {
   const [formData, setFormData] = useState(emptyData);
-  const params = useParams();
+  const { id } = useParams();
   const { push } = useHistory();
+
+  useEffect(()=> {
+    axios.get(`http://localhost:5000/api/movies/${id}`)
+    .then((response) => {
+      console.log(response.data);
+      setFormData(response.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }, [id]);
+
+
+  // useEffect(() => {
+  //   const movieToUpdate = props.movies.find(thing => `${thing.id}` === id)
+  //   setFormData(movieToUpdate)
+  // }, [id, props.movies])
 
   const changeHandler = e => {
     e.persist();
     let value = e.target.value;
-    
+
+    if (e.target.type === 'array') {
+      setFormData({
+        ...formData,
+        stars: [...formData.stars,
+          value
+        ]
+      });
+    }
     setFormData({
       ...formData,
       [e.target.name]: value
@@ -28,12 +52,16 @@ const MovieForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // TODO push request to server
-    Axios.put('/api/movies/:id', formData)
-    // TODO reset state
-    setFormData({emptyData})
-    // TODO route to /movies
-    push(`/movies/${params.id}`);
+
+    // Push request to server
+    axios.put(`http://localhost:5000/api/movies/${id}`, formData)
+    .then(response => {console.log(response.data)})
+    .catch(error => console.log(error))
+
+    // reset state
+    setFormData({emptyData});
+    // route to /movies/:id
+    push(`/movies/${id}`);
   };
 
   return (
@@ -66,10 +94,10 @@ const MovieForm = () => {
 
         <input
           type="array"
-          name="actors"
+          name="stars"
           onChange={changeHandler}
-          placeholder="Actors"
-          value={formData.actors}
+          placeholder="Stars"
+          value={formData.stars}
         />
 
         <button type="submit">Update</button>
