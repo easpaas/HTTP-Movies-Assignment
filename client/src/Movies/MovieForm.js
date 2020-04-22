@@ -1,57 +1,86 @@
 import React, { useState } from 'react';
-
-// {
-//   id: 0,
-//   title: "The Godfather",
-//   director: "Francis Ford Coppola",
-//   metascore: 100,
-//   stars: ["Marlon Brando", "Al Pacino", "Robert Duvall"]
-// },
+// import axios from 'axios';
 
 const emptyData = {
-  id: '',
+  id: '', 
   title: '',
   director: '',
-  metascore: '', 
-  stars: []
-}
+  metascore: '',
+  actors: [],
+};
 
-function MovieForm() {
+const MovieForm = props => {
   const [formData, setFormData] = useState(emptyData);
 
-  const handleChanges = (e) => {
-    console.log('inside changes')
-    // setFormData({...formData, 
-    //   [e.target.name]: e.target.value
-    // })
-  }
+  const changeHandler = e => {
+    e.persist();
+    let value = e.target.value;
+    
+    setFormData({
+      ...formData,
+      [e.target.name]: value
+    });
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    console.log('inside submit')
-  }
+    // TODO push request to server
+    // TODO reset state
+    // TODO route to /movies
+  };
 
   return (
-    <form onSubmit={handleSubmit()}>
-      <label htmlFor="title">
-        Title:
-        <input value={formData.title} />
-      </label>
-      <label htmlFor="director">
-        Director:
-        <input value={formData.director}/>
-      </label>
-      <label htmlFor="metascore">
-        Metascore:
-        <input value={formData.metascore}/>
-      </label>
-      <label htmlFor="stars">
-        Stars:
-        <input value={formData.stars} />
-      </label>
-      <button>Submit</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="title"
+          onChange={changeHandler}
+          placeholder="Title"
+          value={formData.title}
+        />
+        {/* <div className="baseline" /> */}
+
+        <input
+          type="string"
+          name="director"
+          onChange={changeHandler}
+          placeholder="Director"
+          value={formData.director}
+        />
+        {/* <div className="baseline" /> */}
+
+        <input
+          type="number"
+          name="metascore"
+          onChange={changeHandler}
+          placeholder="Metascore"
+          value={formData.metascore}
+        />
+        {/* <div className="baseline" /> */}
+
+        <input
+          type="array"
+          name="actors"
+          onChange={changeHandler}
+          placeholder="Actors"
+          value={formData.actors}
+        />
+        {/* <div className="baseline" /> */}
+
+        <input
+          type="string"
+          name="shipping"
+          onChange={changeHandler}
+          placeholder="Shipping"
+          value={formData.shipping}
+        />
+        {/* <div className="baseline" /> */}
+
+       <button>Update</button>
+      </form>
+    </div>
   );
-}
+};
 
 export default MovieForm;
