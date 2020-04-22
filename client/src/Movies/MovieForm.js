@@ -18,7 +18,7 @@ const MovieForm = (props) => {
   useEffect(()=> {
     axios.get(`http://localhost:5000/api/movies/${id}`)
     .then((response) => {
-      console.log(response.data);
+      console.log(response.data)
       setFormData(response.data)
     })
     .catch((error) => {
@@ -34,16 +34,10 @@ const MovieForm = (props) => {
 
   const changeHandler = e => {
     e.persist();
-    let value = e.target.value;
+    let value = e.target.name === 'stars' ?
+      e.target.value.split(',') :
+      e.target.value
 
-    if (e.target.type === 'array') {
-      setFormData({
-        ...formData,
-        stars: [...formData.stars,
-          value
-        ]
-      });
-    }
     setFormData({
       ...formData,
       [e.target.name]: value
@@ -55,13 +49,17 @@ const MovieForm = (props) => {
 
     // Push request to server
     axios.put(`http://localhost:5000/api/movies/${id}`, formData)
-    .then(response => {console.log(response.data)})
-    .catch(error => console.log(error))
+    .then(response => {
+      console.log(response.data)
+      // setFormData(response.data);
+      // TODO update movie list
+      props.getMovieList();
+      push(`/`);
+    })
+    .catch(error => {
+      console.log(error)
+    })
 
-    // reset state
-    setFormData({emptyData});
-    // route to /movies/:id
-    push(`/movies/${id}`);
   };
 
   return (
@@ -93,11 +91,11 @@ const MovieForm = (props) => {
         />
 
         <input
-          type="array"
+          type="text"
           name="stars"
           onChange={changeHandler}
           placeholder="Stars"
-          value={formData.stars}
+          value={formData.stars.join(',')}
         />
 
         <button type="submit">Update</button>
