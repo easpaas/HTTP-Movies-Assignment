@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Movie from './Movie';
-
 // {
 //   id: 0,
 //   title: "The Godfather",
@@ -13,16 +11,24 @@ import Movie from './Movie';
 const MovieForm = () => {
   return (
     <form>
-      <label>
-        Name:
-        <input></input>
+      <label htmlFor="title">
+        Title:
+        <input />
       </label>
-      <label>
-        Name:
-        <input></input>
+      <label htmlFor="director">
+        Director:
+        <input />
+      </label>
+      <label htmlFor="metascore">
+        Metascore:
+        <input />
+      </label>
+      <label htmlFor="stars">
+        Stars:
+        <input />
       </label>
     </form>
-  )
+  );
 }
 
 export default MovieForm;
