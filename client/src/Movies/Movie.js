@@ -43,7 +43,7 @@ function Movie({ addToSavedList }, props) {
       <div 
         className="edit-button" 
         onClick={() => {
-          push(`/update-item/${movie.id}`);
+          push(`/update-movie/${movie.id}`);
         }}
       >
         Edit

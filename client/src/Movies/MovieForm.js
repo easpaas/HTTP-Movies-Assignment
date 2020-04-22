@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
 // import axios from 'axios';
 
 const emptyData = {
@@ -9,8 +11,9 @@ const emptyData = {
   actors: [],
 };
 
-const MovieForm = props => {
+const MovieForm = () => {
   const [formData, setFormData] = useState(emptyData);
+  const { push } = useHistory();
 
   const changeHandler = e => {
     e.persist();
@@ -25,13 +28,17 @@ const MovieForm = props => {
   const handleSubmit = e => {
     e.preventDefault();
     // TODO push request to server
+    Axios.put('/api/movies/:id', formData)
     // TODO reset state
+    setFormData({emptyData})
     // TODO route to /movies
+    push("/movies");
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <h3>Edit Movie</h3>
         <input
           type="text"
           name="title"
@@ -39,7 +46,6 @@ const MovieForm = props => {
           placeholder="Title"
           value={formData.title}
         />
-        {/* <div className="baseline" /> */}
 
         <input
           type="string"
@@ -48,7 +54,6 @@ const MovieForm = props => {
           placeholder="Director"
           value={formData.director}
         />
-        {/* <div className="baseline" /> */}
 
         <input
           type="number"
@@ -57,7 +62,6 @@ const MovieForm = props => {
           placeholder="Metascore"
           value={formData.metascore}
         />
-        {/* <div className="baseline" /> */}
 
         <input
           type="array"
@@ -66,18 +70,8 @@ const MovieForm = props => {
           placeholder="Actors"
           value={formData.actors}
         />
-        {/* <div className="baseline" /> */}
 
-        <input
-          type="string"
-          name="shipping"
-          onChange={changeHandler}
-          placeholder="Shipping"
-          value={formData.shipping}
-        />
-        {/* <div className="baseline" /> */}
-
-       <button>Update</button>
+        <button type={"submit"}>Update</button>
       </form>
     </div>
   );
