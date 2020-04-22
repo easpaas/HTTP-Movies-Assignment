@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Axios from 'axios';
 // import axios from 'axios';
 
@@ -13,6 +13,7 @@ const emptyData = {
 
 const MovieForm = () => {
   const [formData, setFormData] = useState(emptyData);
+  const params = useParams();
   const { push } = useHistory();
 
   const changeHandler = e => {
@@ -32,7 +33,7 @@ const MovieForm = () => {
     // TODO reset state
     setFormData({emptyData})
     // TODO route to /movies
-    push("/movies");
+    push(`/movies/${params.id}`);
   };
 
   return (
@@ -71,7 +72,7 @@ const MovieForm = () => {
           value={formData.actors}
         />
 
-        <button type={"submit"}>Update</button>
+        <button type="submit">Update</button>
       </form>
     </div>
   );
