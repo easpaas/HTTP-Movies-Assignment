@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // {
 //   id: 0,
@@ -8,25 +8,48 @@ import React from 'react';
 //   stars: ["Marlon Brando", "Al Pacino", "Robert Duvall"]
 // },
 
-const MovieForm = () => {
+const emptyData = {
+  id: '',
+  title: '',
+  director: '',
+  metascore: '', 
+  stars: []
+}
+
+function MovieForm() {
+  const [formData, setFormData] = useState(emptyData);
+
+  const handleChanges = (e) => {
+    console.log('inside changes')
+    // setFormData({...formData, 
+    //   [e.target.name]: e.target.value
+    // })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('inside submit')
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit()}>
       <label htmlFor="title">
         Title:
-        <input />
+        <input value={formData.title} />
       </label>
       <label htmlFor="director">
         Director:
-        <input />
+        <input value={formData.director}/>
       </label>
       <label htmlFor="metascore">
         Metascore:
-        <input />
+        <input value={formData.metascore}/>
       </label>
       <label htmlFor="stars">
         Stars:
-        <input />
+        <input value={formData.stars} />
       </label>
+      <button>Submit</button>
     </form>
   );
 }
