@@ -18,7 +18,6 @@ const MovieForm = (props) => {
   useEffect(()=> {
     axios.get(`http://localhost:5000/api/movies/${id}`)
     .then((response) => {
-      console.log(response.data)
       setFormData(response.data)
     })
     .catch((error) => {
