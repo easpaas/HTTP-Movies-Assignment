@@ -29,6 +29,17 @@ function Movie({ addToSavedList }, props) {
     return <div>Loading movie information...</div>;
   }
 
+  const deleteMovie = e => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:5000/api/movies/${movie.id}`)
+      .then(res => {
+        props.setMovieList(res.data);
+        push('/');
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <div className="save-wrapper">
       <MovieCard movie={movie} />
@@ -51,9 +62,7 @@ function Movie({ addToSavedList }, props) {
 
       <div 
         className="delete-button" 
-        onClick={() => {
-          console.log('clicked delete')
-        }}
+        onClick={deleteMovie}
       >
         Delete
       </div>

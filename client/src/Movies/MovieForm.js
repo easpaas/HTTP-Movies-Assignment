@@ -26,12 +26,6 @@ const MovieForm = (props) => {
     })
   }, [id]);
 
-
-  // useEffect(() => {
-  //   const movieToUpdate = props.movies.find(thing => `${thing.id}` === id)
-  //   setFormData(movieToUpdate)
-  // }, [id, props.movies])
-
   const changeHandler = e => {
     e.persist();
     let value = e.target.name === 'stars' ?
@@ -46,20 +40,15 @@ const MovieForm = (props) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
     // Push request to server
     axios.put(`http://localhost:5000/api/movies/${id}`, formData)
     .then(response => {
-      console.log(response.data)
-      // setFormData(response.data);
-      // TODO update movie list
       props.getMovieList();
       push(`/`);
     })
     .catch(error => {
       console.log(error)
     })
-
   };
 
   return (
